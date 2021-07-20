@@ -55,7 +55,6 @@ export let responseToObject = (response) => {
 
 export let decodePublicKeyCredentialCreationOptions = (request) => {
 
-    (request)
     const excludeCredentials = request.excludeCredentials.map((credential) => {
         return { ...credential, id: Decode(credential.id) };
     });

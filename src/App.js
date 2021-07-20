@@ -66,13 +66,13 @@ function sendWebAuthnResponse(body, requestId) {
     }
 
 
-    let body = {
+    let content = {
         "username": USERNAME,
         "tenantDomain": TENANTDOMAIN,
         "storeDomain": STOREDOMAIN,
         "responseJson": JSON.stringify(responseJson)
     }
-    return axios.post('https://localhost:9443/ndb/rest/v1/fido2/finish-authentication', body, headers)
+    return axios.post('https://localhost:9443/ndb/rest/v1/fido2/finish-authentication', content, headers)
         .then((response) => {
             return response;
         })
@@ -153,7 +153,7 @@ function register() {
     startRegistration(name).then((response) => {
         requestId = response.requestId;
         let publicKey = decodePublicKeyCredentialCreationOptions(response.publicKeyCredentialCreationOptions);
-        return navigator.credentials.create({ publicKey: publicKey2 })
+        return navigator.credentials.create({ publicKey: publicKey })
     }).then((newCred) => {
         return finishRegistration(newCred, requestId);
     }).then(response => {
@@ -167,16 +167,25 @@ function register() {
     })
 }
 
-
 function App() {
     return (
-        <div className="App">
-            <Button variant="contained" color="secondary" style={{ margin: '10px' }}
-                onClick={(e) => authenticate()}> Submit</Button>
-            <Button variant="contained" color="primary" style={{ margin: '10px' }}
-                onClick={(e) => register()}> Register</Button>
+        <div>
+            <div className="App" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '25vh' }}>
+                <label>FIDO SAMPLE CLIENT APPLICATION</label>
+            </div>
+            <div className="App" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '35vh' }}>
+                <Button variant="contained" color="primary" style={{ margin: '10px' }}
+                    onClick={(e) => authenticate()}>Authenticate </Button>
+                <Button variant="contained" color="primary" style={{ margin: '10px' }}
+                    onClick={(e) => register()}> Register Device</Button>
+            </div>
         </div>
+
     );
 }
+
+
+
+
 
 export default App;
